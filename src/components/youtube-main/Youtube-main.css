@@ -1,0 +1,37 @@
+.main-list-warpper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 1rem;
+}
+.video-item {
+}
+.video-item--thumbnail {
+
+}
+.video-item--title {
+
+}
+.video-item--channel-name {
+
+}
+.video-item--published-at {
+
+}
+
+@media screen and (max-width: 1100px) {
+    .main-list-wrapper {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+  
+@media screen and (max-width: 850px) {
+    .main-list-wrapper {
+      grid-template-columns: 1fr 1fr;
+    }
+}
+  
+@media screen and (max-width: 480px) {
+    .main-list-wrapper {
+      grid-template-columns: 1fr;
+    }
+}

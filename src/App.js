@@ -1,9 +1,9 @@
-import Hello from './components/Hello.js';
+import YoutubeMain from './components/youtube-main/Youtube-main.js';
+import { YoutubeService } from './services/youtube.service.js';
 
+const youtubeService = new YoutubeService('AIzaSyDQj5StsLFdWuxkY_sR9VtQWdTT_Qp5kgk');
 export default class App {
   constructor($target) {
-    const hello = new Hello({
-      $target
-    });
+    new YoutubeMain({$target, youtubeService});
   }
 }
