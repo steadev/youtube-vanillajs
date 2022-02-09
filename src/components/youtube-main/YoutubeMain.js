@@ -1,9 +1,10 @@
 import { appendCss } from "../../utils.js";
+import AbstractPage from "../AbstractPage.js";
 
-export default class YoutubeMain {
+export default class YoutubeMain extends AbstractPage {
 
   constructor({$target, youtubeService}) {
-    appendCss(`src/components/youtube-main/Youtube-main.css`);
+    appendCss(`src/components/youtube-main/YoutubeMain.css`);
     this._target = $target;
     this._youtube = youtubeService;
     this._elem = document.createElement('div');
@@ -46,6 +47,6 @@ export default class YoutubeMain {
   }
 
   render() {
-    this._target.appendChild(this._elem);
+    return this._elem;
   }
 }
