@@ -1,6 +1,6 @@
 import HttpService from "./http.service.js";
 
-export class YoutubeService {
+export default class YoutubeService {
 
     _mostPopularPageToken;
     videoList = [];
@@ -12,7 +12,7 @@ export class YoutubeService {
           params: { key }
       })
     }
-  
+
     async mostPopular() {
       const response = await this._request.get("videos", {
         part: "snippet",

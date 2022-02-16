@@ -1,8 +1,5 @@
-import AbstractPage from "../AbstractPage";
-
-export default class YoutubeDetail extends AbstractPage {
+export default class YoutubeDetail {
   constructor() {
-    super()
   }
 
   render() {

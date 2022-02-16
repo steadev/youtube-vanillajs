@@ -1,14 +1,10 @@
 import { appendCss } from "../../utils.js";
-import AbstractPage from "../AbstractPage.js";
 
-export default class YoutubeMain extends AbstractPage {
+export default class YoutubeMain {
 
   constructor({youtubeService}) {
-    super();
     appendCss(`src/components/youtube-main/YoutubeMain.css`);
     this._youtube = youtubeService;
-    this.getYoutubeList();
-    this.render();
   }
 
   appendListElem() {
@@ -19,15 +15,13 @@ export default class YoutubeMain extends AbstractPage {
     this._elem.appendChild(this._listElem);
   }
 
-  getYoutubeList() {
-    this._youtube.mostPopular() //
-      .then((res) => {
-        if (Array.isArray(res)) {
-          res.forEach((video) => {
-            this.drawYoutubeList(video)
-          })
-        }
-      });
+  async getYoutubeList() {
+    const res = await this._youtube.mostPopular();
+    if (Array.isArray(res)) {
+      res.forEach((video) => {
+        this.drawYoutubeList(video)
+      })
+    }
   }
 
   drawYoutubeList(video) {
@@ -49,7 +43,9 @@ export default class YoutubeMain extends AbstractPage {
     this._listElem.innerHTML += videoElem;
   }
 
-  render() {
+  async render() {
+    this.appendListElem();
+    await this.getYoutubeList();
     return this._elem;
   }
 }
