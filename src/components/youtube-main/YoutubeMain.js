@@ -3,20 +3,23 @@ import AbstractPage from "../AbstractPage.js";
 
 export default class YoutubeMain extends AbstractPage {
 
-  constructor({$target, youtubeService}) {
+  constructor({youtubeService}) {
+    super();
     appendCss(`src/components/youtube-main/YoutubeMain.css`);
-    this._target = $target;
     this._youtube = youtubeService;
+    this.getYoutubeList();
+    this.render();
+  }
+
+  appendListElem() {
     this._elem = document.createElement('div');
     this._listElem = document.createElement('div');
     this._listElem.className = 'main-list-warpper';
     this._listElem.innerHTML = '';
     this._elem.appendChild(this._listElem);
-    this.youtubeList();
-    this.render();
   }
 
-  youtubeList() {
+  getYoutubeList() {
     this._youtube.mostPopular() //
       .then((res) => {
         if (Array.isArray(res)) {
