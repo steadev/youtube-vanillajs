@@ -9,6 +9,7 @@ export const navigateTo = url => {
 const youtubeService = new YoutubeService('AIzaSyDQj5StsLFdWuxkY_sR9VtQWdTT_Qp5kgk');
 
 export const router = async () => {
+  console.log('???');
   const routes = [
     { path: '/', page: YoutubeMain },
     { path: '/:id', page: YoutubeDetail }
