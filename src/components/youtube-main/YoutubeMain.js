@@ -1,5 +1,6 @@
 import { appendCss } from "../../utils.js";
 
+
 export default class YoutubeMain {
 
   constructor({youtubeService}) {
@@ -19,15 +20,16 @@ export default class YoutubeMain {
     const res = await this._youtube.mostPopular();
     if (Array.isArray(res)) {
       res.forEach((video) => {
-        this.drawYoutubeList(video)
+        this.drawYoutubeList(video);
       })
     }
   }
 
   drawYoutubeList(video) {
     const { snippet } = video;
+    const elemId = `video-item-${snippet.channelId}`;
     const videoElem = `
-      <div class="video-item">
+      <div id="${elemId}" class="video-item" onclick="history.pushState(null, null, '/${snippet.channelId}')">
         <div class="video-item--thumbnail">
           <img src="${snippet.thumbnails.high.url}" alt="thumbnail" />
         </div>

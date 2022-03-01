@@ -8,7 +8,7 @@ export const navigateTo = url => {
 };
 const youtubeService = new YoutubeService('AIzaSyDQj5StsLFdWuxkY_sR9VtQWdTT_Qp5kgk');
 
-const router = async () => {
+export const router = async () => {
   const routes = [
     { path: '/', page: YoutubeMain },
     { path: '/:id', page: YoutubeDetail }
@@ -32,6 +32,10 @@ const router = async () => {
 }
 
 window.addEventListener("popstate", router);
+
+window.addEventListener('pushstate', () => {
+  console.log('???');
+})
 
 window.addEventListener('DOMContentLoaded', () => {
   router();

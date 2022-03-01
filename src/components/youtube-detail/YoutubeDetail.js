@@ -4,6 +4,7 @@ export default class YoutubeDetail {
 
   render() {
     const origin = `http://localhost:3000`;
+    const id = "UCnUAyD4t2LkvW68YrDh7fDg";
     const src = `http://www.youtube.com/embed/${id}?enablejsapi=1&origin=${origin}`;
     return `
       <iframe
