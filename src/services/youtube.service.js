@@ -8,8 +8,8 @@ export default class YoutubeService {
     constructor(key) {
       this._request = new HttpService();
       this._request.create({
-          baseURL: 'https://www.googleapis.com/youtube/v3',
-          params: { key }
+        baseURL: 'https://www.googleapis.com/youtube/v3',
+        params: { key }
       })
     }
 

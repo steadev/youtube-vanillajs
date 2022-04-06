@@ -1,4 +1,3 @@
-import { router } from '../../main';
 import { appendCss } from "../../utils.js";
 
 export default class YoutubeMain {
@@ -28,9 +27,8 @@ export default class YoutubeMain {
   drawYoutubeList(video) {
     const { snippet } = video;
     const elemId = `video-item-${snippet.channelId}`;
-    const onClickRouter = router;
     const videoElem = `
-      <div id="${elemId}" class="video-item" onclick="history.pushState(null, null, '/${snippet.channelId}');">
+      <div id="${elemId}" class="video-item" onclick="history.pushState({ data: 'hello'}, '', '/${snippet.channelId}');">
         <div class="video-item--thumbnail">
           <img src="${snippet.thumbnails.high.url}" alt="thumbnail" />
         </div>
