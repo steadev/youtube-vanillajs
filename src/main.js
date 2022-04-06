@@ -4,9 +4,8 @@ import YoutubeService from './services/youtube.service.js';
 
 const youtubeService = new YoutubeService('AIzaSyDQj5StsLFdWuxkY_sR9VtQWdTT_Qp5kgk');
 
-export const router = async () => {
-  console.log('!@!@');
-
+export const router = async (path) => {
+  history.pushState(null, null, path ?? '/');
   const routes = [
     { path: '/', page: YoutubeMain },
     { path: '/:id', page: YoutubeDetail }
@@ -26,7 +25,13 @@ export const router = async () => {
 
   if (currentPage !== undefined) {
     try {
-      document.querySelector('#app').innerHTML = (await currentPage.render()).innerHTML;
+      const pageInfo = await currentPage.render();
+      document.querySelector('#app').innerHTML = pageInfo.html.innerHTML;
+      if (Array.isArray(pageInfo.actions)) {
+        pageInfo.actions.forEach((action) => {
+          action();
+        })
+      }
     } catch (error) {
       console.error(error);
     }
@@ -39,10 +44,9 @@ export const navigateTo = url => {
 };
 
 window.onpopstate = function(event) {
-  console.log("location: " + document.location + ", state: " + JSON.stringify(event.state));
+  router(window.location.pathname);
 };
 
-console.log(1)
 window.addEventListener('DOMContentLoaded', () => {
   router();
 });

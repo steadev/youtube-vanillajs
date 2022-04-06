@@ -1,3 +1,4 @@
+import { router } from "../../main.js";
 import { appendCss } from "../../utils.js";
 
 export default class YoutubeMain {
@@ -6,6 +7,8 @@ export default class YoutubeMain {
     appendCss(`src/components/youtube-main/YoutubeMain.css`);
     this._youtube = youtubeService;
   }
+
+  youtubeList = [];
 
   appendListElem() {
     this._elem = document.createElement('div');
@@ -16,19 +19,19 @@ export default class YoutubeMain {
   }
 
   async getYoutubeList() {
-    const res = await this._youtube.mostPopular();
-    if (Array.isArray(res)) {
-      res.forEach((video) => {
+    this.youtubeList = await this._youtube.mostPopular();
+    if (Array.isArray(this.youtubeList)) {
+      this.youtubeList.forEach((video) => {
         this.drawYoutubeList(video);
       })
     }
   }
 
   drawYoutubeList(video) {
-    const { snippet } = video;
-    const elemId = `video-item-${snippet.channelId}`;
+    const { snippet, id } = video;
+    const elemId = `video-item-${id}`;
     const videoElem = `
-      <div id="${elemId}" class="video-item" onclick="history.pushState({ data: 'hello'}, '', '/${snippet.channelId}');">
+      <div id="${elemId}" class="video-item">
         <div class="video-item--thumbnail">
           <img src="${snippet.thumbnails.high.url}" alt="thumbnail" />
         </div>
@@ -47,6 +50,20 @@ export default class YoutubeMain {
   async render() {
     this.appendListElem();
     await this.getYoutubeList();
-    return this._elem;
+    return {
+      html: this._elem,
+      actions: [
+        () => {
+          if (Array.isArray(this.youtubeList)) {
+            this.youtubeList.forEach((video) => {
+              const { id } = video;
+              const elemId = `video-item-${id}`;
+              const videoElem = document.querySelector(`#${elemId}`);
+              videoElem.addEventListener('click', () => router(id));
+            })
+          }
+        }
+      ]
+    }
   }
 }
