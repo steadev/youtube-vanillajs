@@ -10,21 +10,24 @@ export default class YoutubeMain {
 
   youtubeList = [];
 
-  appendListElem() {
+  setBaseElem() {
     this._elem = document.createElement('div');
-    this._listElem = document.createElement('div');
-    this._listElem.className = 'main-list-warpper';
-    this._listElem.innerHTML = '';
-    this._elem.appendChild(this._listElem);
+    this._elem.className = 'youtube-main-container';
+    this.drawSearchBar();
+    this.drawYoutubeListBase();
   }
 
-  async getYoutubeList() {
-    this.youtubeList = await this._youtube.mostPopular();
-    if (Array.isArray(this.youtubeList)) {
-      this.youtubeList.forEach((video) => {
-        this.drawYoutubeList(video);
-      })
-    }
+  drawSearchBar() {
+    this._searchElem = document.createElement('div');
+    this._searchElem.className = 'search-bar-container'
+    this._searchElem.innerHTML = `
+      <img src="https://kr.seaicons.com/wp-content/uploads/2015/10/YouTube-icon.png" />
+      <div class="search-content-wrapper">
+        <input type="text">
+        <button><img src="https://littledeep.com/wp-content/uploads/2020/09/magnifying-icon-style.png"></button>
+      </div>
+    `;
+    this._elem.appendChild(this._searchElem);
   }
 
   drawYoutubeList(video) {
@@ -47,13 +50,46 @@ export default class YoutubeMain {
     this._listElem.innerHTML += videoElem;
   }
 
+  drawYoutubeListBase() {
+    this._listElem = document.createElement('div');
+    this._listElem.className = 'main-list-wrapper';
+    this._listElem.innerHTML = '';
+    this._elem.appendChild(this._listElem);
+  }
+
+  async getYoutubeList() {
+    this.youtubeList = await this._youtube.mostPopular();
+    if (Array.isArray(this.youtubeList)) {
+      this.youtubeList.forEach((video) => {
+        this.drawYoutubeList(video);
+      })
+    }
+  }
+
+  async getSearchedYoutubeList(searchInput) {
+    this.drawYoutubeListBase();
+    this.youtubeList = await this._youtube.search(searchInput);
+    if (Array.isArray(this.youtubeList)) {
+      this.youtubeList.forEach((video) => {
+        this.drawYoutubeList(video);
+      })
+    }
+    const mainListWrapper = document.querySelector('.main-list-wrapper');
+    mainListWrapper.innerHTML = this._listElem.innerHTML;
+  }
+
   async render() {
-    this.appendListElem();
+    this.setBaseElem();
     await this.getYoutubeList();
     return {
       html: this._elem,
       actions: [
         () => {
+          const searchInput = document.querySelector(`.search-content-wrapper input`);
+          const searchButton = document.querySelector(`.search-content-wrapper button`);
+          searchButton.addEventListener('click', () => {
+            this.getSearchedYoutubeList(searchInput.value);
+          });
           if (Array.isArray(this.youtubeList)) {
             this.youtubeList.forEach((video) => {
               const { id } = video;
@@ -61,7 +97,7 @@ export default class YoutubeMain {
               const videoElem = document.querySelector(`#${elemId}`);
               videoElem.addEventListener('click', () => router(id));
             })
-          }
+          };
         }
       ]
     }
