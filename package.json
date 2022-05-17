@@ -1,0 +1,26 @@
+{
+  "name": "youtube-vanillajs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "babel src -w -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/steadev/youtube-vanillajs.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/steadev/youtube-vanillajs/issues"
+  },
+  "homepage": "https://github.com/steadev/youtube-vanillajs#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.17.12",
+    "@babel/plugin-proposal-class-properties": "^7.17.12",
+    "@babel/preset-env": "^7.17.12"
+  }
+}
